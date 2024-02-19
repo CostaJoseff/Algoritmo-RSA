@@ -23,7 +23,7 @@ public class ChavePublica {
 	}
 	
 	/*
-	 * Criptograva uma string qualquer
+	 * Criptografa uma string qualquer
 	 * @param text texto que será criptografado
 	 * @return Texto ciptografado
 	 * 
