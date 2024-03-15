@@ -1,18 +1,20 @@
 # Algoritmo RSA
 
-Algoritmo implementado no final do terceiro período e refatorado.
-Abaixo darei a explicação suficiente para o entendimento do algoritmo.
+Algoritmo implementado no final do terceiro período e refatorado uns períodos depois.
+Abaixo darei a explicação matemática suficiente para o entendimento do algoritmo.
 
 ### Devemos saber inicialmente:
 
  - Teorema de Fermat: Dados dois números 'a' e 'p' inteiros com 'p' primo, então:
+  
    ![image](https://github.com/CostaJoseff/Algoritmo-RSA/assets/97255656/573aa297-16ca-4b97-a508-8e53791aa297)
 
  - Função totiente de Euler ( φ() ): Sejam 'p' e 'q' dois números primos, então:
+  
    ![image](https://github.com/CostaJoseff/Algoritmo-RSA/assets/97255656/bc15d27e-f729-4701-ae1e-1cfb2deeba08)
 
 
-### Números utilizados
+### Números/Variáveis utilizados/as
 
  - p, q : Dois números primos distintos (de preferência com muitos algarismos)
  - n = pq: Multiplicação entre 'p' e 'q'
@@ -20,11 +22,13 @@ Abaixo darei a explicação suficiente para o entendimento do algoritmo.
  - d : Número aleatório de forma que 'd' e 'φ(n)' sejam primos entre si
  - e : inverso multiplicativo de 'd' na congruência 'd ≡ 1 (mod φ(n))' ou seja, d*e ≡ 1 (mod φ(n))
 
-### Explicação do funcionamento (Prova Matemática )
+### Explicação do funcionamento (Prova Matemática)
 
-Vamos iniciar a contrução com
+Vamos iniciar a construção com
 
-![image](https://github.com/CostaJoseff/Algoritmo-RSA/assets/97255656/8eefabcd-62e8-4ad1-98c6-b3865533f09f)
+![image](https://github.com/CostaJoseff/Algoritmo-RSA/assets/97255656/8eefabcd-62e8-4ad1-98c6-b3865533f09f) 
+
+que pode ser verificado facilmente em uma calculadora
 
 Definindo 'a' e 'k' números quaisquer e 'p','q' e 'n' como definidos acima (as letras 'a' e 'k' farão sentido)
 
@@ -42,14 +46,14 @@ Utilizando a propriedade do protudo de potência de mesma base do lado esquerdo 
 
 ![image](https://github.com/CostaJoseff/Algoritmo-RSA/assets/97255656/561f1fff-1533-4ca2-af55-0626ef93406c)
 
-A congruência acima nos mostra que o expoente 'φ(n)k + 1' nos retorna sua base como resto na divisão por 'n' podemos utilizar isso para transformar um texto em um número 'a' qualquer e após o processo listado acima, conseguimos reverter o número de volta para 'a'
+A congruência acima nos mostra que o expoente 'φ(n)k + 1' nos retorna sua base como resto na divisão por 'n'. Podemos utilizar isso para transformar um texto em um número 'a' qualquer e após o processo listado acima, conseguimos reverter o número de volta para 'a'
 
 No algoritmo deste repositório transformamos um texto em um número 'a' e utilizamos o valor 'e' citado acima como expoente da mensagem. 'e' e 'n' são os números públicos.
 De posse do número privado 'd' e do número 'n' recebemos o a^e e efetuamos uma nova exponenciação, agora com o número 'd'. Temos então (a^e)^d e novamente utilizando potência de potência obtemos a^(ed).
 
 Como mencionado anteriormente 'e' é o inverso multiplicativo de 'd' na congruência mod φ(n) ou seja quando divide 'ed' por φ(n) obtem-se 1 como resto da divisão. Temos então 'ed ≡ 1 (mod φ(n))'.
 
-ed ≡ 1 (mod φ(n)) é o mesmo que dizer 'k' vezes φ(n) somado com o resto resulta em 'ed', ou seja 'ed = φ(n)k + 1'.
+ed ≡ 1 (mod φ(n)) pode ser reescrito como "" 'k' vezes φ(n) somado com o resto resulta em 'ed' "", ou seja 'ed = φ(n)k + 1'.
 
 Chegamos na igualdade que precisamos 'de' ou 'ed' é o mesmo que 'φ(n)k + 1' então se a imagem acima mostrou
 
@@ -57,3 +61,18 @@ Chegamos na igualdade que precisamos 'de' ou 'ed' é o mesmo que 'φ(n)k + 1' en
 
 Então, pela igualdade mostrada agora a pouco, o valor 'ed' como expoente do 'a' também resulta sua base 'a' na congruência mod 'n' comprovando que os valores utilizados na criptografia podem alterar um valor qualquer 'a' e após obter o resto da divisão por 'n' conseguimos o valor 'a' novamente.
 
+### Exemplo numérico prático
+
+p = 11  |  q = 127  |  n = 1397  |  φ(n) = 1260  |  d = 1249  |  e = 229
+
+Supondo que uma mensagem X foi mapeada para o número 11, então a = 11. O primeiro passo é criptografar a mensagem
+
+ - a^(e) mod(n), ou seja, 11^229 mod(1397) 
+
+Resultando em 1034. Essa é a mensagem criptografada, ou seja a^e.
+
+Agora para descriptografar utilizaremos 
+
+ - (a^e)^d mod(n) = 1034^1249 mod(1397) 
+
+Se fizer isso na calculadora verá que o resultado será novamente o número 11 e definimos inicialmente que X seria mapeado pra 11.
